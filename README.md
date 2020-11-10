@@ -176,5 +176,5 @@ Project Link: [https://github.com/InvisaMage/papertray](https://github.com/Invis
 [issues-shield]: https://img.shields.io/github/issues/InvisaMage/papertray
 [issues-url]: https://github.com/InvisaMage/papertray/issues
 [license-shield]: https://img.shields.io/github/license/InvisaMage/papertray
-[license-url]: https://github.com/InvisaMage/papertray/blob/master/LICENSE.txt
+[license-url]: https://github.com/InvisaMage/papertray/blob/main/LICENSE.txt
 [product-screenshot]: images/screenshot.png
