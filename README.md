@@ -1,14 +1,3 @@
-<!--
-*** Thanks for checking out this README Template. If you have a suggestion that would
-*** make this better, please fork the repo and create a pull request or simply open
-*** an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -17,9 +6,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
 
 
@@ -27,24 +13,20 @@
 <br />
 <p align="center">
   <a href="https://github.com/InvisaMage/papertray">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">Papertray</h3>
 
   <p align="center">
     A collection of scripts written in Bash that manage <a href="https://papermc.io">PaperMC</a>  servers.
-    <br />
-    <br />
-    <br />
-    <a href="https://github.com/InvisaMage/papertray">View Demo</a>
-    ·
-    <a href="https://github.com/InvisaMage/papertray/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/InvisaMage/papertray/issues">Request Feature</a>
   </p>
 </p>
 
+----
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
 
 <!-- TABLE OF CONTENTS -->
@@ -67,7 +49,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://invisamage.com/papertray)
 
 Papertray is a collection of scripts that allows you to easily manage a PaperMC Minecraft server.
 
@@ -177,4 +159,4 @@ Project Link: [https://github.com/InvisaMage/papertray](https://github.com/Invis
 [issues-url]: https://github.com/InvisaMage/papertray/issues
 [license-shield]: https://img.shields.io/github/license/InvisaMage/papertray
 [license-url]: https://github.com/InvisaMage/papertray/blob/main/LICENSE.txt
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/screenshot.gif
