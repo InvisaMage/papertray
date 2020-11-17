@@ -5,6 +5,7 @@
 # Created by Travis Kipp
 
 # TODO: 
+server_name="mc-server"
 
 #Colors
 RESET='\e[0m'
@@ -16,7 +17,7 @@ YELLOW='\e[93m'
 TAG="${BCYAN}[Trim]${RESET} "
 
 days=‭‬14
-backupDir="/mnt/e/VR Backups/Testing/"
+backupDir="/tmp/${server_name}-backups/"
 
 #Delete files on
 echo -e  "${TAG}${YELLOW}Trimming backups older than 14 days..."

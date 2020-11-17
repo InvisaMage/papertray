@@ -20,13 +20,13 @@ else
 fi
 
 #Get lastest build from PaperMC API
-latest_build=$(curl -s https://papermc.io/api/v1/paper/1.14.4/latest | jq -r '.build')
+latest_build=$(curl -s https://papermc.io/api/v1/paper/1.16.4/latest | jq -r '.build')
 
 
 #If current build is older than lastest build, download latest build and save to file
 if [ $current_build -lt $latest_build ]; then
     echo "${BCYAN}[PaperMC Updater]${RESET} Downloading latest build..."
-	curl -o paper.jar https://papermc.io/api/v1/paper/1.14.4/latest/download
+	curl -o paper.jar https://papermc.io/api/v1/paper/1.16.4/latest/download
 	echo $latest_build > current_build.txt
 	echo "${TAG}${GREEN}Update completed"
 else

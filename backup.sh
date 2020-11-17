@@ -4,7 +4,7 @@
 # Created by Travis Kipp
 
 # TODO:
-server_name="Nether Server"
+server_name="mc-server"
 
 #Colors
 RESET='\e[0m'
@@ -16,7 +16,7 @@ YELLOW='\e[93m'
 TAG="${BCYAN}[PaperTray Backup]${RESET} "
 
 #Location backups are saved to
-backupDir='/mnt/e/${server_name} Backups/'
+backupDir='/tmp/${server_name}-backups/'
 backupDate=$(date +%Y-%m-%d)
 
 #Overwrite default settings from papertray.conf
