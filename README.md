@@ -1,10 +1,6 @@
-<!-- PROJECT SHIELDS -->
 <!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+Papertray README
+Based on https://github.com/othneildrew/Best-README-Template
 -->
 
 
@@ -16,13 +12,14 @@
     <img src="images/logo.png" alt="Logo" width="200" height="200">
   </a>
 
-  <h3 align="center">Papertray</h3>
+  <h1>Papertray</h3>
 
-  <p align="center">
+  <p>
     A collection of scripts written in Bash that manage <a href="https://papermc.io">PaperMC</a>  servers.
   </p>
 </p>
 
+<!-- PROJECT SHIELDS -->
 ----
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
@@ -51,28 +48,26 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://invisamage.com/papertray)
 
-Papertray is a collection of scripts that allows you to easily manage a PaperMC Minecraft server.
+Papertray is a collection of scripts that allows you to easily manage a [PaperMC](https://papermc.io) [Minecraft](https://www.minecraft.net/en-us) server.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
+<!--Add content-->
+I found myself manually navigating to the PaperMC website to check for and download new builds. Any repetitive task should be automated so I made Papertray and some other utility scripts.
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+Papertray can **Backup**, **Trim**, **Update**, and **Start** your PaperMC server.
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+This was made public in the hopes it's useful to others. Feel free to use this as a template and modify to suit your needs.
 
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-These steps assume you are running a Debian/Ubuntu based distribution of Linux, however, these steps should be similar for all Linux variations. 
-To get a local copy up and running follow these simple example steps.
+These steps assume you are running a Debian/Ubuntu based distribution of Linux, however, these steps should be similar for all Linux distributions. 
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-Papertray does not have many dependencies. Java packages are different for many distributions, you may need to lookup the package name for yours.
+Papertray does not have many dependencies. Java packages are different for many distributions, you may need to lookup the package name for flavor of Linux.
 * jq
 * Java
 * curl
@@ -91,19 +86,16 @@ git clone https://github.com/InvisaMage/papertray.git
 ```sh
 chmod +x *.sh
 ```
-4. Run
+
+## Usage
+
+Simply run the main script and Papertray will take care of the rest.
 ```sh
 ./papertray.sh
 ```
-Papertray will take care of the rest. Please note, on the first run, you will need to accept the Minecraft EULA manually.
+**Please note, on the first run, you will need to accept the Minecraft EULA manually.**
 
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
+The other scripts may be run as well, however, they are not well maintained.
 
 
 <!-- ROADMAP -->

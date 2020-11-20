@@ -11,7 +11,7 @@
 #Avialable versions: https://papermc.io/api/v1/paper
 #!!!Ensure the version actually exists!!!
 #When changing major versions, delete .pt_current_build.txt
-version="1.16.2"
+version="1.16.4"
 server_name="My Server"
 advJavaArgs=false
 debug=false
@@ -27,15 +27,12 @@ TAG="${BCYAN}[Paper Tray]${RESET} "
 
 #Backup settings
 #Location backups are saved to
-backupDir="/mnt/c/${server_name} Backups/"
+backupDir="/tmp/${server_name}-backups/"
 backupDate=$(date +%Y-%m-%d)
 currentDate=$(date +%s)
 trimDays=28
 day=86400
 trimBackups=true
-# hour: 3600
-# day:  86400
-# week: 604800 
 
 #Overwrite default settings from papertray.conf
 source papertray.conf
