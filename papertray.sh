@@ -74,8 +74,8 @@ backup() {
 
 #Trim
 trim() {
-    echo -e  "${TAG}${YELLOW}Trimming backups older than 28 days..."
-    find "$backupDir" -mindepth 1 -maxdepth 1 -type d -mtime +28 -exec rm -rf {} +
+    echo -e  "${TAG}${YELLOW}Trimming backups older than ${trimDays} days..."
+    find "$backupDir" -mindepth 1 -maxdepth 1 -type d -mtime +${trimDays} -exec rm -rf {} +
     echo -e  "${TAG}${GREEN}Done"
 }
 
@@ -122,6 +122,24 @@ buildDownload() {
     curl -o paper.jar "https://papermc.io/api/v1/paper/${version}/latest/download"
 	echo -e  $latest_build > .pt_current_build.txt
 	echo -e  "${TAG}Downloaded lastest build"
+}
+
+#Get lastest build from Geyser API
+geyserDownload() {
+    curl -o plugins/geyser.jar "https://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar"
+	#echo -e  $latest_build > .pt_gy_current_build.txt
+	echo -e  "${TAG}Downloaded lastest build of Geyser"
+}
+
+geyserFolder() {
+    if [ -d "plugins" ]; then
+	    echo -e  "${TAG}Plugins folder found"
+        geyserDownload
+	else
+	    echo -e  "${TAG}${RED}Plugins folder not found"
+	    mkdir -p "plugins"
+		echo -e  "${TAG}Created plugins folder"
+    fi
 }
 
 #Start
@@ -187,6 +205,11 @@ fi
 #Get lastest build information from PaperMC API
 latest_build=$(curl -s https://papermc.io/api/v1/paper/${version}/latest | jq -r '.build')
 echo -e  "${TAG}Got lastest build info"
+
+#Manage Geyser
+if [ "$manageGeyser" = true ] ; then
+    geyserFolder
+fi
 
 #If current build is older than lastest build, download latest build and save to file
 if [[ $current_build < $latest_build ]]; then
