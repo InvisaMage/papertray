@@ -117,24 +117,39 @@ startLoop() {
     fi
 }
 
-#Get lastest build from PaperMC API
+#Get latest build from PaperMC API
 buildDownload() {
     curl -o paper.jar "https://papermc.io/api/v1/paper/${version}/latest/download"
 	echo -e  $latest_build > .pt_current_build.txt
-	echo -e  "${TAG}Downloaded lastest build"
+	echo -e  "${TAG}Downloaded latest PaperMC build"
 }
 
-#Get lastest build from Geyser API
+#Geyser build info
+buildInfoGy() {
+	latest_build_gy=$(curl -s https://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/api/json | jq '.lastStableBuild.number')
+    echo -e  "${TAG}Got latest build info for Geyser"
+	geyserDownload
+}
+
+#Get latest build from Geyser API
 geyserDownload() {
-    curl -o plugins/geyser.jar "https://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar"
-	#echo -e  $latest_build > .pt_gy_current_build.txt
-	echo -e  "${TAG}Downloaded lastest build of Geyser"
+	
+	#If current geyser build is older than latest build, download latest build and save to file
+	if [[ $current_build_py < $latest_build_gy ]]; then
+		echo -e  "${TAG}Downloading latest Geyser build..."
+		curl -o plugins/geyser.jar "https://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar"
+		echo -e  $latest_build_gy > .pt_gy_current_build.txt
+		echo -e  "${TAG}Downloaded latest build of Geyser"
+		echo -e  "${TAG}${GREEN}Geyser update completed"
+	else
+		echo -e  "${TAG}${GREEN}Geyser is already up to date"
+	fi
 }
 
 geyserFolder() {
     if [ -d "plugins" ]; then
 	    echo -e  "${TAG}Plugins folder found"
-        geyserDownload
+        buildInfoGy
 	else
 	    echo -e  "${TAG}${RED}Plugins folder not found"
 	    mkdir -p "plugins"
@@ -202,22 +217,31 @@ else
 	current_build=$(cat .pt_current_build.txt)
 fi
 
-#Get lastest build information from PaperMC API
+#If current Geyser build file exists, continue, if not create file
+if [ -f .pt_gy_current_build.txt ] ; then
+    current_build_py=$(cat .pt_gy_current_build.txt)
+else
+    echo -e  "${TAG}${RED}pt_gy_current_build.txt not found, ${RESET}creating file"
+	echo -e  "0" > .pt_gy_current_build.txt
+	current_build_py=$(cat .pt_gy_current_build.txt)
+fi
+
+#Get latest build information from PaperMC API
 latest_build=$(curl -s https://papermc.io/api/v1/paper/${version}/latest | jq -r '.build')
-echo -e  "${TAG}Got lastest build info"
+echo -e  "${TAG}Got latest build info for PaperMC"
 
 #Manage Geyser
 if [ "$manageGeyser" = true ] ; then
     geyserFolder
 fi
 
-#If current build is older than lastest build, download latest build and save to file
+#If current build is older than latest build, download latest build and save to file
 if [[ $current_build < $latest_build ]]; then
-    echo -e  "${TAG}Downloading latest build..."
+    echo -e  "${TAG}Downloading latest PaperMC build..."
 	buildDownload
-	echo -e  "${TAG}${GREEN}Update completed"
+	echo -e  "${TAG}${GREEN}PaperMC update completed"
 	startLoop
 else
-    echo -e  "${TAG}${GREEN}You're already up to date"
+    echo -e  "${TAG}${GREEN}PaperMC is already up to date"
 	startLoop
 fi
