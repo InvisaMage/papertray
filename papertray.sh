@@ -1,5 +1,5 @@
 #!/bin/bash
-# Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
+# Papertray - Organize your PaperMC server: Backup, Trim, Update, Start
 # Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 # Dependencies - jq (https://stedolan.github.io/jq/), curl, and Java
 # Created by Travis Kipp
@@ -23,7 +23,7 @@ RED='\e[91m'
 BCYAN='\e[36m\e[1m'
 BWHITE='\e[97m'
 YELLOW='\e[93m'
-TAG="${BCYAN}[Paper Tray]${RESET} "
+TAG="${BCYAN}[Papertray]${RESET} "
 
 #Backup settings
 #Location backups are saved to
@@ -158,6 +158,15 @@ geyserFolder() {
 }
 
 #Start
+echo -e "${BCYAN}  ____                       _                   ";
+echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
+echo -e "${BCYAN} | |_) / _\` | '_ \ / _ \ '__| __| '__/ _\` | | | |";
+echo -e "${BCYAN} |  __/ (_| | |_) |  __/ |  | |_| | | (_| | |_| |";
+echo -e "${BCYAN} |_|   \__,_| .__/ \___|_|   \__|_|  \__,_|\__, |";
+echo -e "${BCYAN}            |_|                            |___/ ";
+echo -e "${GREEN}                          Created by: Travis Kipp";
+echo -e "";
+
 #Check if jq is installed
 if type jq &>/dev/null ; then
     echo -e "${TAG}${RESET}jq is installed"
