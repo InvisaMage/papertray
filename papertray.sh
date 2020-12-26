@@ -5,7 +5,7 @@
 # Created by Travis Kipp
 
 # README: If you don't know what this is, you probably should't be here. Edit the papertray.conf file only
-# TODO: Add more checks and info for trimming | Add autorestart - wrap everything under loop | Add ability to disable features (Backup, Trim, Update)
+# TODO: Add more checks and info for trimming | Add autorestart - wrap everything under loop
 
 #PaperMC Version
 #Avialable versions: https://papermc.io/api/v1/paper
@@ -32,7 +32,6 @@ backupDate=$(date +%Y-%m-%d)
 currentDate=$(date +%s)
 trimDays=28
 day=86400
-trimBackups=true
 
 #Overwrite default settings from papertray.conf
 source papertray.conf
@@ -194,22 +193,25 @@ fi
 echo -e ""
 
 #If last backup date file exists, continue, if not create file
-if [ -f .pt_last_backup.txt ] ; then
-	last_backup_date=$(cat .pt_last_backup.txt)
-else
-	echo -e  "${TAG}${RED}pt_backup_date.txt not found, ${RESET}creating file"
-	echo -e  "0" > .pt_last_backup.txt
-	last_backup_date=$(cat .pt_last_backup.txt)
-	backup
+if [ "$doBackup" = true ] ; then
+    if [ -f .pt_last_backup.txt ] ; then
+		last_backup_date=$(cat .pt_last_backup.txt)
+	else
+		echo -e  "${TAG}${RED}pt_backup_date.txt not found, ${RESET}creating file"
+		echo -e  "0" > .pt_last_backup.txt
+		last_backup_date=$(cat .pt_last_backup.txt)
+		backup
+	fi
+
+	#If last backup date is older than 1 day, backup server
+	if [ $currentDate -gt $(($last_backup_date+$day)) ]; then
+		echo -e  "${TAG}${YELLOW}Backup is older than ${day} seconds"
+		backup
+	else
+		echo -e  "${TAG}${YELLOW}Backup is current"
+	fi
 fi
 
-#If last backup date is older than 1 day, backup server
-if [ $currentDate -gt $(($last_backup_date+$day)) ]; then
-    echo -e  "${TAG}${YELLOW}Backup is older than ${day} seconds"
-	backup
-else
-	echo -e  "${TAG}${YELLOW}Backup is current"
-fi
 
 #trim
 if [ "$trimBackups" = true ] ; then
