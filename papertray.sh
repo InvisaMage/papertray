@@ -11,7 +11,7 @@
 #Avialable versions: https://papermc.io/api/v1/paper
 #!!!Ensure the version actually exists!!!
 #When changing major versions, delete .pt_current_build.txt
-version="1.16.4"
+version="1.16.5"
 server_name="My Server"
 advJavaArgs=false
 debug=false
