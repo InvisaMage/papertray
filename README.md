@@ -31,6 +31,7 @@ Based on https://github.com/othneildrew/Best-README-Template
 
 - [Table of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
+- [Features](#features)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -57,6 +58,13 @@ Papertray can **Backup**, **Trim**, **Update**, and **Start** your PaperMC serve
 
 This was made public in the hopes it's useful to others. Feel free to use this as a template and modify to suit your needs.
 
+<!-- FEATURES -->
+## Features
+* Install and update [PaperMC](https://papermc.io)
+* Install and update [Geyser](https://geysermc.org)
+* Backup the entire server directory to a specified location
+* Delete old backups (trim)
+* Start the server in a loop (for crash recovery)
 
 
 <!-- GETTING STARTED -->
