@@ -5,16 +5,7 @@
 # Created by Travis Kipp
 
 # README: If you don't know what this is, you probably should't be here. Edit the papertray.conf file only
-# TODO: Add more checks and info for trimming | Add autorestart - wrap everything under loop
-
-#PaperMC Version
-#Avialable versions: https://papermc.io/api/v1/paper
-#!!!Ensure the version actually exists!!!
-#When changing major versions, delete .pt_current_build.txt
-version="1.16.5"
-server_name="My Server"
-advJavaArgs=false
-debug=false
+# TODO: Created Config file on first run | Add more checks and info for trimming | Add autorestart - wrap everything under loop
 
 #Colors
 RESET='\e[0m'
@@ -25,16 +16,58 @@ BWHITE='\e[97m'
 YELLOW='\e[93m'
 TAG="${BCYAN}[Papertray]${RESET} "
 
-#Backup settings
-#Location backups are saved to
-backupDir="/tmp/${server_name}-backups/"
+echo -e "${BCYAN}  ____                       _                   ";
+echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
+echo -e "${BCYAN} | |_) / _\` | '_ \ / _ \ '__| __| '__/ _\` | | | |";
+echo -e "${BCYAN} |  __/ (_| | |_) |  __/ |  | |_| | | (_| | |_| |";
+echo -e "${BCYAN} |_|   \__,_| .__/ \___|_|   \__|_|  \__,_|\__, |";
+echo -e "${BCYAN}            |_|                            |___/ ";
+echo -e "${GREEN}                          Created by: Travis Kipp";
+echo -e "";
+
+#Create config file if it doesn't exist
+createConfig(){
+cat >> papertray.conf <<'EOL'
+# Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
+# Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+# Requires jq: https://stedolan.github.io/jq/
+# Custmize this to your liking
+
+#General
+#PaperMC Version
+#Avialable versions: https://papermc.io/api/v1/paper
+#!!!Ensure the version actually exists!!!
+#When changing major versions, delete .current_build
+version="1.16.5"
+server_name="mc-server"
+advJavaArgs=false #Only enable if you have lots of RAM ~16GB+
+debug=false #Prevents starting the server
+
+#Features
+doBackup=true #Copies the entire server directory to another location; runs based on settings below
+trimBackups=false #Delete old backups based on trimDays
+manageGeyser=false #Install and update GeyserMC
+
+#Backup Settings
+backupDir="/tmp/${server_name}-backups/" #Recommend changing this to another disk
 backupDate=$(date +%Y-%m-%d)
 currentDate=$(date +%s)
 trimDays=28
 day=86400
+EOL
+}
 
-#Overwrite default settings from papertray.conf
-source papertray.conf
+#Create config file
+#If papertray.conf does not exists, write to file
+if [ -f papertray.conf ] ; then
+    echo -e  "${TAG}Config file found, reading..."
+	echo -e  ""
+	#Overwrite default settings from papertray.conf
+	source papertray.conf
+else
+    echo -e  "${TAG}${RED}papertray.conf not found${RESET}, creating file and writting defaults"
+	createConfig
+fi
 
 #Functions
 
@@ -157,15 +190,6 @@ pluginsFolder() {
 }
 
 #Start
-echo -e "${BCYAN}  ____                       _                   ";
-echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
-echo -e "${BCYAN} | |_) / _\` | '_ \ / _ \ '__| __| '__/ _\` | | | |";
-echo -e "${BCYAN} |  __/ (_| | |_) |  __/ |  | |_| | | (_| | |_| |";
-echo -e "${BCYAN} |_|   \__,_| .__/ \___|_|   \__|_|  \__,_|\__, |";
-echo -e "${BCYAN}            |_|                            |___/ ";
-echo -e "${GREEN}                          Created by: Travis Kipp";
-echo -e "";
-
 #Check if jq is installed
 if type jq &>/dev/null ; then
     echo -e "${TAG}${RESET}jq is installed"
