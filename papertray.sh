@@ -1,20 +1,11 @@
 #!/bin/bash
-# Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
+# Papertray - Organize your PaperMC server: Backup, Trim, Update, Start
 # Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 # Dependencies - jq (https://stedolan.github.io/jq/), curl, and Java
 # Created by Travis Kipp
 
 # README: If you don't know what this is, you probably should't be here. Edit the papertray.conf file only
-# TODO: Add more checks and info for trimming | Add autorestart - wrap everything under loop | Add ability to disable features (Backup, Trim, Update)
-
-#PaperMC Version
-#Avialable versions: https://papermc.io/api/v1/paper
-#!!!Ensure the version actually exists!!!
-#When changing major versions, delete .pt_current_build.txt
-version="1.16.4"
-server_name="My Server"
-advJavaArgs=false
-debug=false
+# TODO: Created Config file on first run | Add more checks and info for trimming | Add autorestart - wrap everything under loop
 
 #Colors
 RESET='\e[0m'
@@ -23,19 +14,60 @@ RED='\e[91m'
 BCYAN='\e[36m\e[1m'
 BWHITE='\e[97m'
 YELLOW='\e[93m'
-TAG="${BCYAN}[Paper Tray]${RESET} "
+TAG="${BCYAN}[Papertray]${RESET} "
 
-#Backup settings
-#Location backups are saved to
-backupDir="/tmp/${server_name}-backups/"
+echo -e "${BCYAN}  ____                       _                   ";
+echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
+echo -e "${BCYAN} | |_) / _\` | '_ \ / _ \ '__| __| '__/ _\` | | | |";
+echo -e "${BCYAN} |  __/ (_| | |_) |  __/ |  | |_| | | (_| | |_| |";
+echo -e "${BCYAN} |_|   \__,_| .__/ \___|_|   \__|_|  \__,_|\__, |";
+echo -e "${BCYAN}            |_|                            |___/ ";
+echo -e "${GREEN}                          Created by: Travis Kipp";
+echo -e "";
+
+#Create config file if it doesn't exist
+createConfig(){
+cat >> papertray.conf <<'EOL'
+# Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
+# Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+# Requires jq: https://stedolan.github.io/jq/
+# Custmize this to your liking
+
+#General
+#PaperMC Version
+#Avialable versions: https://papermc.io/api/v1/paper
+#!!!Ensure the version actually exists!!!
+#When changing major versions, delete .current_build
+version="1.16.5"
+server_name="mc-server"
+advJavaArgs=false #Only enable if you have lots of RAM ~16GB+
+debug=false #Prevents starting the server
+
+#Features
+doBackup=true #Copies the entire server directory to another location; runs based on settings below
+trimBackups=false #Delete old backups based on trimDays
+manageGeyser=false #Install and update GeyserMC
+
+#Backup Settings
+backupDir="/tmp/${server_name}-backups/" #Recommend changing this to another disk
 backupDate=$(date +%Y-%m-%d)
 currentDate=$(date +%s)
 trimDays=28
 day=86400
-trimBackups=true
+EOL
+}
 
-#Overwrite default settings from papertray.conf
-source papertray.conf
+#Create config file
+#If papertray.conf does not exists, write to file
+if [ -f papertray.conf ] ; then
+    echo -e  "${TAG}Config file found, reading..."
+	echo -e  ""
+	#Overwrite default settings from papertray.conf
+	source papertray.conf
+else
+    echo -e  "${TAG}${RED}papertray.conf not found${RESET}, creating file and writting defaults"
+	createConfig
+fi
 
 #Functions
 
@@ -117,24 +149,39 @@ startLoop() {
     fi
 }
 
-#Get lastest build from PaperMC API
+#Get latest build from PaperMC API
 buildDownload() {
     curl -o paper.jar "https://papermc.io/api/v1/paper/${version}/latest/download"
 	echo -e  $latest_build > .pt_current_build.txt
-	echo -e  "${TAG}Downloaded lastest build"
+	echo -e  "${TAG}Downloaded latest PaperMC build"
 }
 
-#Get lastest build from Geyser API
+#Geyser build info
+buildInfoGy() {
+	latest_build_gy=$(curl -s https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/api/json | jq '.lastStableBuild.number')
+    echo -e  "${TAG}Got latest build info for Geyser"
+	geyserDownload
+}
+
+#Get latest build from Geyser API
 geyserDownload() {
-    curl -o plugins/geyser.jar "https://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar"
-	#echo -e  $latest_build > .pt_gy_current_build.txt
-	echo -e  "${TAG}Downloaded lastest build of Geyser"
+	
+	#If current geyser build is older than latest build, download latest build and save to file
+	if [[ $current_build_py < $latest_build_gy ]]; then
+		echo -e  "${TAG}Downloading latest Geyser build..."
+		curl -o plugins/geyser.jar "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar"
+		echo -e  $latest_build_gy > .pt_gy_current_build.txt
+		echo -e  "${TAG}Downloaded latest build of Geyser"
+		echo -e  "${TAG}${GREEN}Geyser update completed"
+	else
+		echo -e  "${TAG}${GREEN}Geyser is already up to date"
+	fi
 }
 
-geyserFolder() {
+pluginsFolder() {
     if [ -d "plugins" ]; then
 	    echo -e  "${TAG}Plugins folder found"
-        geyserDownload
+        buildInfoGy
 	else
 	    echo -e  "${TAG}${RED}Plugins folder not found"
 	    mkdir -p "plugins"
@@ -170,22 +217,25 @@ fi
 echo -e ""
 
 #If last backup date file exists, continue, if not create file
-if [ -f .pt_last_backup.txt ] ; then
-	last_backup_date=$(cat .pt_last_backup.txt)
-else
-	echo -e  "${TAG}${RED}pt_backup_date.txt not found, ${RESET}creating file"
-	echo -e  "0" > .pt_last_backup.txt
-	last_backup_date=$(cat .pt_last_backup.txt)
-	backup
+if [ "$doBackup" = true ] ; then
+    if [ -f .pt_last_backup.txt ] ; then
+		last_backup_date=$(cat .pt_last_backup.txt)
+	else
+		echo -e  "${TAG}${RED}pt_backup_date.txt not found, ${RESET}creating file"
+		echo -e  "0" > .pt_last_backup.txt
+		last_backup_date=$(cat .pt_last_backup.txt)
+		backup
+	fi
+
+	#If last backup date is older than 1 day, backup server
+	if [ $currentDate -gt $(($last_backup_date+$day)) ]; then
+		echo -e  "${TAG}${YELLOW}Backup is older than ${day} seconds"
+		backup
+	else
+		echo -e  "${TAG}${YELLOW}Backup is current"
+	fi
 fi
 
-#If last backup date is older than 1 day, backup server
-if [ $currentDate -gt $(($last_backup_date+$day)) ]; then
-    echo -e  "${TAG}${YELLOW}Backup is older than ${day} seconds"
-	backup
-else
-	echo -e  "${TAG}${YELLOW}Backup is current"
-fi
 
 #trim
 if [ "$trimBackups" = true ] ; then
@@ -202,22 +252,30 @@ else
 	current_build=$(cat .pt_current_build.txt)
 fi
 
-#Get lastest build information from PaperMC API
+#Get latest build information from PaperMC API
 latest_build=$(curl -s https://papermc.io/api/v1/paper/${version}/latest | jq -r '.build')
-echo -e  "${TAG}Got lastest build info"
+echo -e  "${TAG}Got latest build info for PaperMC"
 
 #Manage Geyser
 if [ "$manageGeyser" = true ] ; then
-    geyserFolder
+	if [ -f .pt_gy_current_build.txt ] ; then
+    	current_build_py=$(cat .pt_gy_current_build.txt)
+	else
+		echo -e  "${TAG}${RED}pt_gy_current_build.txt not found, ${RESET}creating file"
+		echo -e  "0" > .pt_gy_current_build.txt
+		current_build_py=$(cat .pt_gy_current_build.txt)
+	fi
+	
+    pluginsFolder
 fi
 
-#If current build is older than lastest build, download latest build and save to file
+#If current build is older than latest build, download latest build and save to file
 if [[ $current_build < $latest_build ]]; then
-    echo -e  "${TAG}Downloading latest build..."
+    echo -e  "${TAG}Downloading latest PaperMC build..."
 	buildDownload
-	echo -e  "${TAG}${GREEN}Update completed"
+	echo -e  "${TAG}${GREEN}PaperMC update completed"
 	startLoop
 else
-    echo -e  "${TAG}${GREEN}You're already up to date"
+    echo -e  "${TAG}${GREEN}PaperMC is already up to date"
 	startLoop
 fi
