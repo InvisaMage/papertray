@@ -4,7 +4,7 @@
 # Dependencies - jq (https://stedolan.github.io/jq/), curl, and Java
 # Created by Travis Kipp
 
-# README: If you don't know what this is, you probably should't be here. Edit the papertray.conf file only
+# README: If you don't know what this is, you probably shouldn't be here. Edit the papertray.conf file only
 # TODO: Created Config file on first run | Add more checks and info for trimming | Add autorestart - wrap everything under loop
 
 #Colors
@@ -15,6 +15,7 @@ BCYAN='\e[36m\e[1m'
 BWHITE='\e[97m'
 YELLOW='\e[93m'
 TAG="${BCYAN}[Papertray]${RESET} "
+VER="v0.1.1-alpha"
 
 echo -e "${BCYAN}  ____                       _                   ";
 echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
@@ -22,13 +23,15 @@ echo -e "${BCYAN} | |_) / _\` | '_ \ / _ \ '__| __| '__/ _\` | | | |";
 echo -e "${BCYAN} |  __/ (_| | |_) |  __/ |  | |_| | | (_| | |_| |";
 echo -e "${BCYAN} |_|   \__,_| .__/ \___|_|   \__|_|  \__,_|\__, |";
 echo -e "${BCYAN}            |_|                            |___/ ";
-echo -e "${GREEN}                          Created by: Travis Kipp";
+echo -e "${BWHITE}                           Version: ${YELLOW}${VER}";
+echo -e "${BWHITE}                         Created by: ${GREEN}Travis Kipp";
 echo -e "";
 
 #Create config file if it doesn't exist
-createConfig(){
+createConfig() {
 cat >> papertray.conf <<'EOL'
 # Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
+# Config Version: v0.1.1-alpha
 # Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 # Requires jq: https://stedolan.github.io/jq/
 # Custmize this to your liking
