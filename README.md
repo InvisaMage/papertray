@@ -36,6 +36,7 @@ Based on https://github.com/othneildrew/Best-README-Template
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
+- [Recommended Usage](#recommended-usage)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
@@ -73,6 +74,7 @@ This was made public in the hopes it's useful to others. Feel free to use this a
 These steps assume you are running a Debian/Ubuntu based distribution of Linux, however, these steps should be similar for all Linux distributions. 
 To get a local copy up and running follow these simple steps.
 
+<!-- PREREQUISITES -->
 ### Prerequisites
 
 Papertray does not have many dependencies. Java packages are different for many distributions, you may need to lookup the package name for flavor of Linux.
@@ -83,6 +85,7 @@ Papertray does not have many dependencies. Java packages are different for many 
 sudo apt install jq openjdk-11-jre curl
 ```
 
+<!-- INSTALLATION -->
 ### Installation
 
 1. Clone the repo
@@ -95,6 +98,7 @@ git clone https://github.com/InvisaMage/papertray.git
 chmod +x *.sh
 ```
 
+<!-- USAGE -->
 ## Usage
 
 Simply run the main script and Papertray will take care of the rest.
@@ -103,7 +107,17 @@ Simply run the main script and Papertray will take care of the rest.
 ```
 **Please note, on the first run, you will need to accept the Minecraft EULA manually.**
 
-The other scripts may be run as well, however, they are not well maintained.
+The other scripts may be run as well, however, they are not well maintained. Use them at your own risk.
+
+<!-- RECOMMENDED USAGE -->
+## Recommended Usage
+Papertray works best if it's ran using Crontab and screen
+
+Here's an example of a crontab file:
+```sh
+@reboot cd /home/mc/server && /usr/bin/screen -d -m -h 500 ./papertray.sh
+```
+This will run Papertray every time the computer reboots and runs it under the screen terminal multiplexer.
 
 
 <!-- ROADMAP -->

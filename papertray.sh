@@ -5,7 +5,7 @@
 # Created by Travis Kipp
 
 # README: If you don't know what this is, you probably shouldn't be here. Edit the papertray.conf file only
-# TODO: Created Config file on first run | Add more checks and info for trimming | Add autorestart - wrap everything under loop
+# TODO: Prevent pause from no internet connection | Add more checks and info for trimming | Add autorestart - wrap everything under loop
 
 #Colors
 RESET='\e[0m'
@@ -40,8 +40,8 @@ cat >> papertray.conf <<'EOL'
 #PaperMC Version
 #Avialable versions: https://papermc.io/api/v1/paper
 #!!!Ensure the version actually exists!!!
-#When changing major versions, delete .current_build
-version="1.16.5"
+#When changing major and minor versions, delete .pt_current_build.txt
+version="1.17.1"
 server_name="mc-server"
 advJavaArgs=false #Only enable if you have lots of RAM ~16GB+
 debug=false #Prevents starting the server
