@@ -48,11 +48,10 @@ Based on https://github.com/othneildrew/Best-README-Template
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://invisamage.com/papertray)
+[![Product Name Screenshot][product-screenshot]](https://invisamage.com/papertray)
 
 Papertray is a collection of scripts that allows you to easily manage a [PaperMC](https://papermc.io) [Minecraft](https://www.minecraft.net/en-us) server.
 
-<!--Add content-->
 I found myself manually navigating to the PaperMC website to check for and download new builds. Any repetitive task should be automated so I made Papertray and some other utility scripts.
 
 Papertray can **Backup**, **Trim**, **Update**, and **Start** your PaperMC server.
@@ -82,7 +81,7 @@ Papertray does not have many dependencies. Java packages are different for many 
 * Java
 * curl
 ```sh
-sudo apt install jq openjdk-11-jre curl
+sudo apt install jq openjdk-16-jre curl
 ```
 
 <!-- INSTALLATION -->
@@ -162,7 +161,8 @@ Project Link: [https://github.com/InvisaMage/papertray](https://github.com/Invis
 * My Linux Administration teacher
 * [Best README Template](https://github.com/othneildrew/Best-README-Template)
 * [Terminalizer](https://github.com/faressoft/terminalizer)
-
+* [Text to ASCII Art Generator](https://patorjk.com/software/taag)
+* Logo is licensed under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
