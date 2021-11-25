@@ -15,7 +15,7 @@ BCYAN='\e[36m\e[1m'
 BWHITE='\e[97m'
 YELLOW='\e[93m'
 TAG="${BCYAN}[Papertray]${RESET} "
-VER="v0.1.1-alpha"
+VER="v0.1.2-alpha"
 
 echo -e "${BCYAN}  ____                       _                   ";
 echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
@@ -31,14 +31,14 @@ echo -e "";
 createConfig() {
 cat >> papertray.conf <<'EOL'
 # Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
-# Config Version: v0.1.1-alpha
+# Config Version: v0.1.2-alpha
 # Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 # Requires jq: https://stedolan.github.io/jq/
 # Custmize this to your liking
 
 #General
 #PaperMC Version
-#Avialable versions: https://papermc.io/api/v1/paper
+#Avialable versions: https://papermc.io/api/v2/projects/paper
 #!!!Ensure the version actually exists!!!
 #When changing major and minor versions, delete .pt_current_build.txt
 version="1.17.1"
@@ -154,7 +154,7 @@ startLoop() {
 
 #Get latest build from PaperMC API
 buildDownload() {
-    curl -o paper.jar "https://papermc.io/api/v1/paper/${version}/latest/download"
+    curl -o paper.jar "https://papermc.io/api/v2/projects/paper/versions/${version}/builds/${latest_build}/downloads/paper-1.17.1-${latest_build}.jar"
 	echo -e  $latest_build > .pt_current_build.txt
 	echo -e  "${TAG}Downloaded latest PaperMC build"
 }
@@ -256,7 +256,7 @@ else
 fi
 
 #Get latest build information from PaperMC API
-latest_build=$(curl -s https://papermc.io/api/v1/paper/${version}/latest | jq -r '.build')
+latest_build=$(curl -s https://papermc.io/api/v2/projects/paper/versions/${version} | jq -r '.builds[-1]')
 echo -e  "${TAG}Got latest build info for PaperMC"
 
 #Manage Geyser
