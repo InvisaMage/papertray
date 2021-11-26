@@ -154,7 +154,7 @@ startLoop() {
 
 #Get latest build from PaperMC API
 buildDownload() {
-    curl -o paper.jar "https://papermc.io/api/v2/projects/paper/versions/${version}/builds/${latest_build}/downloads/paper-1.17.1-${latest_build}.jar"
+    curl -o paper.jar "https://papermc.io/api/v2/projects/paper/versions/${version}/builds/${latest_build}/downloads/paper-${version}-${latest_build}.jar"
 	echo -e  $latest_build > .pt_current_build.txt
 	echo -e  "${TAG}Downloaded latest PaperMC build"
 }
