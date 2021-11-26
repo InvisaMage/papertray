@@ -15,7 +15,7 @@ BCYAN='\e[36m\e[1m'
 BWHITE='\e[97m'
 YELLOW='\e[93m'
 TAG="${BCYAN}[Papertray]${RESET} "
-VER="v0.1.2-alpha"
+VER="v0.1.3-alpha"
 
 echo -e "${BCYAN}  ____                       _                   ";
 echo -e "${BCYAN} |  _ \ __ _ _ __   ___ _ __| |_ _ __ __ _ _   _ ";
@@ -31,7 +31,7 @@ echo -e "";
 createConfig() {
 cat >> papertray.conf <<'EOL'
 # Paper Tray - Organize your PaperMC server: Backup, Trim, Update, Start
-# Config Version: v0.1.2-alpha
+# Config Version: v0.1.3-alpha
 # Tested on Debian/Ubuntu systems and WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 # Requires jq: https://stedolan.github.io/jq/
 # Custmize this to your liking
